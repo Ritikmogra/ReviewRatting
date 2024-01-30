@@ -1,26 +1,23 @@
+const os = require("os")
 const express = require('express');
 require('./Dbconnection/connection')
 const {userRoutes} = require('./Routes/userRouter')
-const {companyRoutes} = require('./Routes/companyRoutes')
+const {companyRoutes} = require('./Routes/companyRoutes');
+const { ReviewRoutes } = require('./Routes/ReviewRoutes');
+require('dotenv').config()
+require('./Dbconnection/connection')
 
 const app = express();
-let PORT = 7000
+app.use(express.urlencoded({extended:false}));
 app.use(express.json())
-
-
-// app.get('/ritik',(req,res)=>{
-//     res.send("ritik mogra is hero")
-// })
-// app.post('/ritika',(req,res)=>{
-//     console.log(req.body)
-//     if(!req.body.email){
-//         res.send("email required")
-//     }
-//     res.send("ok")
-// })
 app.use('/user',userRoutes)
 app.use('/company',companyRoutes)
+app.use('/Review',ReviewRoutes)
 
-app.listen(PORT,()=>{
-    console.log(`Server is running at ${PORT}`)
+// console.log(os.cpus())
+
+// console.log(os.arch())
+
+app.listen(process.env.PORT,()=>{
+    console.log(`Server is running at ${process.env.PORT}`)
 })
